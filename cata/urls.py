@@ -16,14 +16,20 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
-from catalog import views
+from catalog import views as catalog_views
+from isearch import views as isearch_views
 
-# register our views
+
+# register our ReST views (part 1)
 router = routers.DefaultRouter()
-router.register(r'catalog', views.CatalogItemViewSet)
+router.register(r'catalog', catalog_views.CatalogItemViewSet, base_name='catalog')
+router.register(r'isearch', isearch_views.ISearchViewSet, base_name='isearch')
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),
+   
+    # register ReST views (part 2)
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls')),
 ]
+
