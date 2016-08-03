@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import routers
 from catalog import views as catalog_views
 from isearch import views as isearch_views
-
+from cata.schema import schema
+from graphene.contrib.django.views import GraphQLView
 
 # register our ReST views (part 1)
 router = routers.DefaultRouter()
@@ -31,5 +33,9 @@ urlpatterns = [
     # register ReST views (part 2)
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls')),
+
+    # register graphql stuff
+    url(r'^graphql', csrf_exempt(GraphQLView.as_view(schema=schema))),
+    url(r'^graphiql', include('django_graphiql.urls')),
 ]
 

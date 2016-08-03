@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_graphiql',
+    'graphene.contrib.django',
     'catalog',
 ]
 
@@ -110,8 +112,8 @@ LANGUAGE_CODE = 'en-GB'
 
 DATE_INPUT_FORMATS = ('%d-%m-%Y')
 REST_FRAMEWORK = {
-    'DATE_INPUT_FORMATS': ('%d/%m/%Y', '%d-%m-%Y'),
-    'DATE_FORMAT': '%d/%m/%Y',
+    #'DATE_INPUT_FORMATS': ('%d/%m/%Y', '%d-%m-%Y'),
+    #'DATE_FORMAT': '%d/%m/%Y',
 }
 
 TIME_ZONE = 'UTC'
