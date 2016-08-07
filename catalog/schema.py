@@ -6,7 +6,36 @@ from graphql_relay.node.node import from_global_id
 
 from django.contrib.auth.models import User
 
-from catalog.models import CatalogItem
+from django.contrib.auth.models import User
+from catalog.models import Store, CatalogItem
+
+class UserNode(DjangoNode):
+    rid = graphene.IntField()
+
+    def resolve_rid(self, args, info):
+        return self.id
+
+    class Meta:
+        model = User
+        filter_fields = {
+            'id': ['exact'],
+            'username': ['exact'],
+        }
+
+
+class StoreNode(DjangoNode):
+    rid = graphene.IntField()
+
+    def resolve_rid(self, args, info):
+        return self.id
+
+    class Meta:
+        model = Store 
+        filter_fields = {
+            'id': ['exact'],
+            'desc': ['exact', 'icontains', 'istartswith'],
+        }
+
 
 class CatalogNode(DjangoNode):
     rid = graphene.IntField()
@@ -18,6 +47,7 @@ class CatalogNode(DjangoNode):
         model = CatalogItem
         filter_fields = {
             'id': ['exact'],
+            'store': ['exact'],
             'desc': ['exact', 'icontains', 'istartswith'],
             'start': ['exact', 'lt', 'gt'],
             'end': ['exact', 'lt', 'gt'],
@@ -30,6 +60,7 @@ class NewCatalogItem(graphene.Mutation):
 
     class Input:
         id = graphene.String()
+        store = graphene.Int()
         desc = graphene.String()
         thumb = graphene.String()
         price = graphene.Float()
@@ -61,6 +92,8 @@ class NewCatalogItem(graphene.Mutation):
 
 
 class Query(graphene.ObjectType):
+    users = DjangoFilterConnectionField(UserNode)
+    stores = DjangoFilterConnectionField(StoreNode)
     catalog = DjangoFilterConnectionField(CatalogNode)
 
     class Meta:

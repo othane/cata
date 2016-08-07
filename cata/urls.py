@@ -24,6 +24,8 @@ from graphene.contrib.django.views import GraphQLView
 
 # register our ReST views (part 1)
 router = routers.DefaultRouter()
+router.register(r'store', catalog_views.StoreViewSet, base_name='store')
+router.register(r'user', catalog_views.UserViewSet, base_name='user')
 router.register(r'catalog', catalog_views.CatalogItemViewSet, base_name='catalog')
 router.register(r'isearch', isearch_views.ISearchViewSet, base_name='isearch')
 
