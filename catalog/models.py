@@ -25,7 +25,7 @@ class CatalogItem(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='catalog')
     store = models.ManyToManyField(Store)
     desc = models.CharField('description', max_length=256)
-    thumb = models.ImageField('thumbnail', upload_to=FileSystemStorage(''))
+    thumb = models.ImageField('thumbnail')
     price = models.DecimalField(max_digits=6, decimal_places=2)
     created = models.DateField()
     start = models.DateField()

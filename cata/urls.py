@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import routers
 from catalog import views as catalog_views
@@ -41,3 +42,9 @@ urlpatterns = [
     url(r'^graphiql', include('django_graphiql.urls')),
 ]
 
+if settings.DEBUG:
+    # media stuff
+    from django.conf.urls import patterns
+    urlpatterns += patterns('',
+            (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+                {'document_root': settings.MEDIA_ROOT}))
